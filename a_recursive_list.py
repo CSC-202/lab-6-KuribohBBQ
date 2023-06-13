@@ -33,32 +33,107 @@ class List:
 
 
 def initialize() -> List:
+    return List()
     raise NotImplementedError("List.initialize() not defined")
 
 
 def isEmpty(data: List) -> bool:
+    return list.head == None
     raise NotImplementedError("List.isEmpty() not defined")
 
 
 def addAtIndex(data: List, index: int, value: int) -> List:
+    def helper(v: Node, index: int, value: int, i):
+        if (i + 1) == index:
+            new_node = (value, v.next)
+            v.next = new_node
+            return data
+        elif i > index:
+            raise IndexError('oops')
+        else:
+            return helper(v.next, index, i + 1, value)
+        
+    if data.first is None:
+        data.first = Node(value, None)
+        return data
+    elif index < 0 or index >= len(data):
+        raise IndexError('oops')
+    else:
+        return helper(data.first, index, value, i = 0)
     raise NotImplementedError("List.addAtIndex() not defined")
 
 
 def removeAtIndex(data: List, index: int) -> tuple[Node, List]:
+    def helper(v: Node, index: int, i: int ):
+        if (i + 1) == index:
+            target: Node = v.next
+            v.next = target.next
+            return target, data
+        elif i > index:
+            raise IndexError('oops')
+        else:
+            return helper(v.next, index, i + 1)
+        
+    if isEmpty(data):
+        return None
+    elif index < 0 or index >= len(data):
+        raise IndexError('oops')
+    else:
+        return helper(data.first, index, i = 0)
     raise NotImplementedError("List.removeAtIndex() not defined")
 
 
 def addToFront(data: List, value: int) -> List:
-    raise NotImplementedError("List.addToFront() not defined")
+    if data.first is None:
+        new_node = (value, None)
+        data.first = new_node
+        return data
+    else:
+        new_node = Node(value, data.first)
+        data.first = new_node
+        return data
+        raise NotImplementedError("List.addToFront() not defined")
 
 
 def addToBack(data: List, value: int) -> List:
+    def helper(v: Node, value: int):
+        if v.next is None:
+            new_node = Node(value, None)
+            v.next = new_node
+            return data
+        else:
+            return helper(v.next, value)
+    if data.first is None:
+        new_node = Node(value, None)
+        data.first = new_node
+        return data
+    else:
+        return helper(data.first, value)
     raise NotImplementedError("List.addToBack() not defined")
+    
+        
+    
 
 
 def getElementAtIndex(data: List, index: int) -> Node:
+    def helper(v: Node, index: int, i: int):
+        if i == index:
+            return v
+        elif i > index:
+            raise IndexError('oops')
+        else:
+            return helper(v.next, index, i + 1)
+        
+    if isEmpty(data):
+        return None
+    elif index < 0 or index >= len(data):
+        raise IndexError('oops')
+    else:
+        return helper(data.first, index, i = 0)
     raise NotImplementedError("List.getElementAtIndex() not defined")
 
 
 def clear(data: List) -> List:
+    data.first = None
+    return data
     raise NotImplementedError("List.clear() not defined")
